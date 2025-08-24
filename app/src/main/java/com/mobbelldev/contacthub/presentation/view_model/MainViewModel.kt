@@ -1,4 +1,4 @@
-package com.mobbelldev.contacthub.presentation.main
+package com.mobbelldev.contacthub.presentation.view_model
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

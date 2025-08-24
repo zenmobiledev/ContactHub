@@ -49,6 +49,9 @@ android {
 }
 
 dependencies {
+    // Navigation Compose
+    implementation(libs.navigation.compose)
+
     // Retrofit
     implementation(libs.retrofit2)
     implementation(libs.retrofit2.converter.gson)
