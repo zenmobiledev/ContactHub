@@ -40,4 +40,3 @@ private fun UserResponse.Company.toCompany(): User.Company {
         name = name
     )
 }
-

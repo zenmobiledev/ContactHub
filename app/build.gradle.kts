@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.devtools.ksp)
+    alias(libs.plugins.dagger.hilt.android)
 }
 
 android {
@@ -9,6 +11,12 @@ android {
     compileSdk = 36
 
     defaultConfig {
+        buildConfigField(
+            type = "String",
+            name = "BASE_URL",
+            value = "\"https://jsonplaceholder.typicode.com/\""
+        )
+        
         applicationId = "com.mobbelldev.contacthub"
         minSdk = 24
         targetSdk = 36
@@ -36,10 +44,22 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
 dependencies {
+    // Retrofit
+    implementation(libs.retrofit2)
+    implementation(libs.retrofit2.converter.gson)
+
+    // Logging Interceptor
+    implementation(libs.logging.interceptor)
+
+    // Dagger Hilt
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation.compose)
+    ksp(libs.hilt.compiler)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
