@@ -1,4 +1,4 @@
-package com.mobbelldev.contacthub.ui.theme
+package com.mobbelldev.contacthub.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
