@@ -77,6 +77,7 @@ fun MainScreen(
     ) { paddingValues ->
         when {
             users.isEmpty() -> {
+                // Loading
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -88,6 +89,7 @@ fun MainScreen(
             }
 
             filtered.isEmpty() -> {
+                // Empty state
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -99,6 +101,7 @@ fun MainScreen(
             }
 
             else -> {
+                // User list
                 LazyColumn(modifier = Modifier.padding(paddingValues = paddingValues)) {
                     items(filtered) { user ->
                         MainContent(user = user)
@@ -106,37 +109,5 @@ fun MainScreen(
                 }
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun MainScreenPreview() {
-    ContactHubTheme {
-        MainContent(
-            user = User(
-                id = 0,
-                name = "Zaenal Arif",
-                username = "zenmobiledev",
-                email = "zaenalariftech@gmail.com",
-                phone = "+62",
-                website = "https://hai-zen.netlify.app/",
-                address = User.Address(
-                    zipcode = "12260",
-                    geo = User.Geo(
-                        lng = "",
-                        lat = ""
-                    ),
-                    suite = "",
-                    city = "South Jakarta",
-                    street = "XX. XXXXXX"
-                ),
-                company = User.Company(
-                    catchPhrase = "",
-                    name = "Gencidev",
-                    bs = "",
-                )
-            )
-        )
     }
 }

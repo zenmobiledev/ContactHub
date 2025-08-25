@@ -14,9 +14,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mobbelldev.contacthub.R
 import com.mobbelldev.contacthub.domain.model.User
+import com.mobbelldev.contacthub.presentation.theme.ContactHubTheme
 
 @Composable
 fun MainContent(user: User) {
@@ -42,5 +44,38 @@ fun MainContent(user: User) {
                 style = MaterialTheme.typography.bodyMedium
             )
         }
+    }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+private fun MainContentPreview() {
+    ContactHubTheme {
+        MainContent(
+            user = User(
+                id = 0,
+                name = "Zaenal Arif",
+                username = "zenmobiledev",
+                email = "zaenalariftech@gmail.com",
+                phone = "+62",
+                website = "https://hai-zen.netlify.app/",
+                address = User.Address(
+                    zipcode = "12260",
+                    geo = User.Geo(
+                        lng = "",
+                        lat = ""
+                    ),
+                    suite = "",
+                    city = "South Jakarta",
+                    street = "XX. XXXXXX"
+                ),
+                company = User.Company(
+                    catchPhrase = "",
+                    name = "Gencidev",
+                    bs = "",
+                )
+            )
+        )
     }
 }
