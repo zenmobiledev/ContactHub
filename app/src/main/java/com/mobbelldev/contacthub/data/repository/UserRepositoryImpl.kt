@@ -13,17 +13,11 @@ class UserRepositoryImpl @Inject constructor(
     private val local: UserDao,
     private val remote: ApiService,
 ) : UserRepository {
-    override suspend fun getUsers(forceRefresh: Boolean): List<User> {
+    override suspend fun getUsers(isLoad: Boolean): List<User> {
         return try {
             // Fetch data from the API
-            if (forceRefresh) {
-                val remoteUsers = remote.getUsers()
-                val domainUsers = remoteUsers.map { it.toDomain() }
-
-                // Save data local into database
-                local.clearUsers()
-                local.insertUsers(domainUsers.map { it.toEntity() })
-                domainUsers
+            if (isLoad) {
+                fetchFromRemote()
             } else {
                 // Try to load data from local cache first
                 val cached = local.getAllUsers()
@@ -31,11 +25,7 @@ class UserRepositoryImpl @Inject constructor(
                     cached.map { it.toDomain() }
                 } else {
                     // If cache is empty, fetch data from API
-                    val remoteUsers = remote.getUsers()
-                    val domainUsers = remoteUsers.map { it.toDomain() }
-
-                    local.insertUsers(domainUsers.map { it.toEntity() })
-                    domainUsers
+                    fetchFromRemote()
                 }
             }
 
@@ -44,5 +34,18 @@ class UserRepositoryImpl @Inject constructor(
             Log.d("UserRepositoryImpl", "Error getUsers because: ${e.message}")
             local.getAllUsers().map { it.toDomain() }
         }
+    }
+
+    private suspend fun fetchFromRemote(): List<User> {
+        val remoteUsers = remote.getUsers()
+        val domainUsers = remoteUsers.map { it.toDomain() }
+
+        // Save data local into database
+        local.clearUsers()
+        local.insertUsers(
+            users = domainUsers.map { it.toEntity() }
+        )
+
+        return domainUsers
     }
 }
