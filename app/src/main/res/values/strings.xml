@@ -2,8 +2,13 @@
     <string name="app_name">ContactHub</string>
     <string name="search_contact">Search</string>
     <string name="name">Name: %s</string>
+    <string name="email">Email: %s</string>
+    <string name="phone">Phone: %s</string>
+    <string name="website">Website: %s</string>
     <string name="company">Company: %s</string>
+    <string name="address">Address: %1s, %2s</string>
     <string name="placeholder">Search name or company</string>
     <string name="clear">Clear</string>
     <string name="no_users_found">No users found</string>
+    <string name="data_is_null">Data is null</string>
 </resources>

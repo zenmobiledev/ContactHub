@@ -23,18 +23,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mobbelldev.contacthub.R
 import com.mobbelldev.contacthub.domain.model.User
 import com.mobbelldev.contacthub.presentation.screens.main.component.MainContent
 import com.mobbelldev.contacthub.presentation.screens.main.component.SearchTextField
-import com.mobbelldev.contacthub.presentation.theme.ContactHubTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     viewModel: MainViewModel = hiltViewModel(),
+    onItemClicked: (User) -> Unit,
 ) {
     val users by viewModel.users.collectAsState()
     var isSearching by rememberSaveable { mutableStateOf(false) }
@@ -104,7 +103,10 @@ fun MainScreen(
                 // User list
                 LazyColumn(modifier = Modifier.padding(paddingValues = paddingValues)) {
                     items(filtered) { user ->
-                        MainContent(user = user)
+                        MainContent(
+                            user = user,
+                            onItemClick = { onItemClicked(user) }
+                        )
                     }
                 }
             }

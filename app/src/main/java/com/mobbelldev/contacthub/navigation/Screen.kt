@@ -2,9 +2,7 @@ package com.mobbelldev.contacthub.navigation
 
 sealed class Screen(val route: String) {
     object Main : Screen(route = MAIN)
-    object Detail : Screen(route = "$DETAIL/{userId}") {
-        fun route(userId: Int) = "$DETAIL/$userId"
-    }
+    object Detail : Screen(route = DETAIL)
 
     companion object {
         private const val MAIN = "main"

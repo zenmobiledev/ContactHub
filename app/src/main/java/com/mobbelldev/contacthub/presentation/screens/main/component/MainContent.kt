@@ -1,6 +1,5 @@
 package com.mobbelldev.contacthub.presentation.screens.main.component
 
-import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -12,7 +11,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -21,15 +19,15 @@ import com.mobbelldev.contacthub.domain.model.User
 import com.mobbelldev.contacthub.presentation.theme.ContactHubTheme
 
 @Composable
-fun MainContent(user: User) {
-    val context = LocalContext.current
+fun MainContent(
+    user: User,
+    onItemClick: (User) -> Unit,
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .clickable {
-                Toast.makeText(context, "Click: ${user.name}", Toast.LENGTH_SHORT).show()
-            }
+            .clickable { onItemClick(user) }
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
@@ -75,7 +73,8 @@ private fun MainContentPreview() {
                     name = "Gencidev",
                     bs = "",
                 )
-            )
+            ),
+            onItemClick = { }
         )
     }
 }
