@@ -11,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import com.mobbelldev.contacthub.domain.model.User
 import com.mobbelldev.contacthub.presentation.screens.detail.DetailScreen
 import com.mobbelldev.contacthub.presentation.screens.main.MainScreen
+import com.mobbelldev.contacthub.util.Constant
 
 @Composable
 fun NavGraph(navController: NavHostController = rememberNavController()) {
@@ -20,7 +21,7 @@ fun NavGraph(navController: NavHostController = rememberNavController()) {
         composable(route = Screen.Main.route) { backStackEntry ->
             MainScreen(
                 onItemClicked = { user ->
-                    backStackEntry.savedStateHandle.set("user", user)
+                    backStackEntry.savedStateHandle[Constant.USER] = user
                     navController.navigate(Screen.Detail.route)
                 }
             )
@@ -31,7 +32,7 @@ fun NavGraph(navController: NavHostController = rememberNavController()) {
             val context = LocalContext.current
             val user = navController.previousBackStackEntry
                 ?.savedStateHandle
-                ?.get<User>("user")
+                ?.get<User>(Constant.USER)
 
             DetailScreen(
                 userParam = user,
