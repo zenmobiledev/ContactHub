@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.mobbelldev.contacthub.presentation.screens.MainScreen
+import com.mobbelldev.contacthub.presentation.screens.main.MainScreen
 
 @Composable
 fun NavGraph(navController: NavHostController = rememberNavController()) {

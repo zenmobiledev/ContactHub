@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">ContactHub</string>
-    <string name="search">Search</string>
+    <string name="search_contact">Search</string>
     <string name="name">Name: %s</string>
     <string name="company">Company: %s</string>
+    <string name="placeholder">Search name or company</string>
+    <string name="clear">Clear</string>
+    <string name="no_users_found">No users found</string>
 </resources>
