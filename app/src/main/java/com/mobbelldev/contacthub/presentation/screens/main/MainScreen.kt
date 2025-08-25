@@ -87,7 +87,7 @@ fun MainScreen(
                         .padding(paddingValues = paddingValues),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(text = stringResource(R.string.connection))
+                    Text(text = stringResource(R.string.empty))
                 }
             }
 
