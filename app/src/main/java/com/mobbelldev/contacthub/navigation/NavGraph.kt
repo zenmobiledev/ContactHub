@@ -36,7 +36,6 @@ fun NavGraph(navController: NavHostController = rememberNavController()) {
             DetailScreen(
                 user = user,
                 onDial = { phoneNumber ->
-                    val context = context
                     val intent = Intent(Intent.ACTION_DIAL, "tel:$phoneNumber".toUri())
                     context.startActivity(intent)
                 }
