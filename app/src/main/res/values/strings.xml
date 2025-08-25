@@ -12,4 +12,5 @@
     <string name="clear">Clear</string>
     <string name="no_users_found">No users found</string>
     <string name="data_is_null">Data is null</string>
+    <string name="connection">Turn on your internet connection</string>
 </resources>
