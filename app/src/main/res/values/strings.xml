@@ -8,6 +8,7 @@
     <string name="company">Company: %s</string>
     <string name="address">Address: %1s, %2s</string>
     <string name="placeholder">Search name or company</string>
+    <string name="call">Call</string>
     <string name="clear">Clear</string>
     <string name="no_users_found">No users found</string>
     <string name="data_is_null">Data is null</string>

@@ -14,9 +14,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mobbelldev.contacthub.R
 import com.mobbelldev.contacthub.domain.model.User
@@ -25,48 +28,54 @@ import com.mobbelldev.contacthub.presentation.screens.detail.component.DetailCon
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
-    user: User?,
+    userParam: User?,
     viewModel: DetailViewModel = hiltViewModel(),
     onDial: (String) -> Unit,
 ) {
     val context = LocalContext.current
+    val user by viewModel.user.collectAsState()
 
-    LaunchedEffect(user) {
-        user?.let {
+    LaunchedEffect(userParam) {
+        userParam?.let {
             viewModel.getUser(
                 user = it
             )
         }
     }
 
-    user?.let {
-        Scaffold(
-            topBar = {
-                TopAppBar(title = {
-                    Text(text = it.name)
-                })
-            },
-            floatingActionButton = {
-                FloatingActionButton(
-                    onClick = { onDial(it.phone) }
-                ) {
-                    Icon(Icons.Default.Phone, contentDescription = "call")
-                }
-            }
-        ) { paddingValues ->
-
-            Column(modifier = Modifier.padding(paddingValues = paddingValues)) {
-                DetailContent(
-                    user = it
-                )
-            }
-        }
-    } ?: @Composable {
+    if (user == null) {
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
             Text(text = context.getString(R.string.data_is_null))
+        }
+    } else {
+        user?.let {
+            Scaffold(
+                topBar = {
+                    TopAppBar(title = {
+                        Text(text = it.name)
+                    })
+                },
+                floatingActionButton = {
+                    FloatingActionButton(
+                        onClick = { onDial(it.phone) }
+                    ) {
+                        Icon(
+                            Icons.Default.Phone,
+                            contentDescription = stringResource(R.string.call)
+                        )
+                    }
+                }
+            ) { paddingValues ->
+
+                Column(modifier = Modifier.padding(paddingValues = paddingValues)) {
+                    DetailContent(
+                        user = it
+                    )
+                }
+            }
         }
     }
 }

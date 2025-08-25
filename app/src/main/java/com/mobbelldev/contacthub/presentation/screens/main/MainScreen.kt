@@ -28,6 +28,7 @@ import com.mobbelldev.contacthub.R
 import com.mobbelldev.contacthub.domain.model.User
 import com.mobbelldev.contacthub.presentation.screens.main.component.MainContent
 import com.mobbelldev.contacthub.presentation.screens.main.component.SearchTextField
+import com.mobbelldev.contacthub.presentation.screens.main.util.UiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,16 +36,9 @@ fun MainScreen(
     viewModel: MainViewModel = hiltViewModel(),
     onItemClicked: (User) -> Unit,
 ) {
-    val users by viewModel.users.collectAsState()
+    val state by viewModel.state.collectAsState()
     var isSearching by rememberSaveable { mutableStateOf(false) }
     var query by rememberSaveable { mutableStateOf("") }
-
-    val filtered = if (query.isBlank()) {
-        users
-    } else users.filter {
-        it.name.contains(query, true) ||
-                it.company.name.contains(query, true)
-    }
 
     Scaffold(
         topBar = {
@@ -74,9 +68,8 @@ fun MainScreen(
             )
         }
     ) { paddingValues ->
-        when {
-            users.isEmpty() -> {
-                // Loading
+        when (state) {
+            is UiState.Loading -> {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -87,26 +80,42 @@ fun MainScreen(
                 }
             }
 
-            filtered.isEmpty() -> {
-                // Empty state
+            is UiState.Empty -> {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(paddingValues = paddingValues),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(text = stringResource(R.string.no_users_found))
+                    Text(text = stringResource(R.string.data_is_null))
                 }
             }
 
-            else -> {
-                // User list
-                LazyColumn(modifier = Modifier.padding(paddingValues = paddingValues)) {
-                    items(filtered) { user ->
-                        MainContent(
-                            user = user,
-                            onItemClick = { onItemClicked(user) }
-                        )
+            is UiState.Success -> {
+                val users = (state as UiState.Success).data
+                val filtered = if (query.isBlank()) {
+                    users
+                } else users.filter {
+                    it.name.contains(query, true) ||
+                            it.company.name.contains(query, true)
+                }
+                if (filtered.isEmpty()) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues = paddingValues),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(text = stringResource(R.string.no_users_found))
+                    }
+                } else {
+                    LazyColumn(modifier = Modifier.padding(paddingValues = paddingValues)) {
+                        items(filtered) { user ->
+                            MainContent(
+                                user = user,
+                                onItemClick = { onItemClicked(user) }
+                            )
+                        }
                     }
                 }
             }
